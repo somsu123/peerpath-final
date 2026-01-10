@@ -1,0 +1,8 @@
+{
+  "name": "PeerPath Clone",
+  "description": "A collaborative learning platform that connects students with study peers and an advanced AI tutor powered by Gemini.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
