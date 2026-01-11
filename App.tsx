@@ -200,7 +200,7 @@ const App: React.FC = () => {
                   { name: 'CSE', img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80', active: 42 },
                   { name: 'CSBS', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80', active: 22 },
                   { name: 'ECE', img: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=400&q=80', active: 19 },
-                  { name: 'EEE', img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&q=80', active: 16 },
+                  { name: 'EEE', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80', active: 16 },
                   { name: 'ME', img: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&w=400&q=80', active: 12 },
                   { name: 'EE', img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=400&q=80', active: 15 },
                 ].map((dept, i) => (
