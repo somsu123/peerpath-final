@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { 
-  Mic, MicOff, Video, VideoOff, Hand, 
-  MessageSquare, Settings, LogOut, Send, 
+import {
+  Mic, MicOff, Video, VideoOff, Hand,
+  MessageSquare, Settings, LogOut, Send,
   Share2, Terminal, X
 } from 'lucide-react';
 import { StudyGroup, User } from '../types';
@@ -19,7 +19,7 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
   const [isHandRaised, setIsHandRaised] = useState(false);
   const [showChat, setShowChat] = useState(true);
   const [message, setMessage] = useState('');
-  const [chatMessages, setChatMessages] = useState<{user: string, text: string, time: string}[]>([
+  const [chatMessages, setChatMessages] = useState<{ user: string, text: string, time: string }[]>([
     { user: 'Arjun Das', text: 'Hey everyone, starting with the linked list part now.', time: '10:05 AM' },
     { user: 'Sneha Bose', text: 'Should we review the doubly linked list too?', time: '10:07 AM' },
   ]);
@@ -134,26 +134,26 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
 
       {/* Grid Area - Simplified layout without Screen Share */}
       <div className="flex-1 flex overflow-hidden">
-        <div className={`flex-1 p-4 md:p-6 transition-all duration-300 ${showChat ? 'md:mr-[350px]' : ''}`}>
-          <div className="h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
+        <div className={`flex-1 p-2 md:p-6 transition-all duration-300 ${showChat ? 'md:mr-[350px]' : ''}`}>
+          <div className="h-full grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 auto-rows-fr">
             {participants.map((p, i) => (
               <div key={i} className={`relative rounded-3xl overflow-hidden bg-slate-900 border border-white/5 group ${p.isMe ? 'ring-2 ring-indigo-500 shadow-[0_0_30px_rgba(79,70,229,0.2)]' : ''}`}>
                 {p.isVideoOn ? (
                   <div className="w-full h-full relative">
                     {p.isMe ? (
-                      <video 
+                      <video
                         ref={setLocalVideoRef}
-                        autoPlay 
-                        playsInline 
-                        muted 
+                        autoPlay
+                        playsInline
+                        muted
                         className="w-full h-full object-cover mirror-mode"
                       />
                     ) : (
                       <div className="w-full h-full relative">
-                        <img 
-                          src={`https://images.unsplash.com/photo-${1500000000000 + (i * 100)}?auto=format&fit=crop&w=800&q=60`} 
-                          className="w-full h-full object-cover opacity-60" 
-                          alt="peer-video" 
+                        <img
+                          src={`https://images.unsplash.com/photo-${1500000000000 + (i * 100)}?auto=format&fit=crop&w=800&q=60`}
+                          className="w-full h-full object-cover opacity-60"
+                          alt="peer-video"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <img src={p.avatar} className="w-20 h-20 rounded-full border-4 border-white/20" alt={p.name} />
@@ -183,7 +183,7 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
                     <span className="text-[10px] font-black uppercase tracking-widest">{p.name} {p.isMe && '(You)'}</span>
                     {p.isMuted && <MicOff className="w-3 h-3 text-red-500" />}
                   </div>
-                  
+
                   {!p.isMuted && (
                     <div className="flex items-end gap-0.5 h-3">
                       <div className="w-0.5 bg-green-500 animate-[pulse_0.4s_infinite_0.1s]"></div>
@@ -197,16 +197,16 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
           </div>
         </div>
 
-        {/* Chat Sidebar */}
-        <div className={`fixed right-0 top-16 bottom-24 w-[350px] bg-slate-900 border-l border-white/5 flex flex-col transition-transform duration-300 ${showChat ? 'translate-x-0' : 'translate-x-full'} z-10`}>
-          <div className="p-6 border-b border-white/5 flex items-center justify-between">
+        {/* Chat Sidebar - Mobile Overlay, Desktop Sidebar */}
+        <div className={`fixed inset-x-0 md:right-0 md:left-auto top-16 bottom-24 md:top-16 md:bottom-24 w-full md:w-[350px] bg-slate-900/95 md:bg-slate-900 backdrop-blur-lg md:backdrop-blur-none border-t md:border-t-0 md:border-l border-white/5 flex flex-col transition-transform duration-300 ${showChat ? 'translate-x-0' : 'translate-x-full'} z-10`}>
+          <div className="p-4 md:p-6 border-b border-white/5 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-indigo-400" />
-              <h3 className="text-[10px] font-black uppercase tracking-widest">In-Room Chat</h3>
+              <h3 className="text-xs md:text-[10px] font-black uppercase tracking-widest">In-Room Chat</h3>
             </div>
-            <button onClick={() => setShowChat(false)} className="md:hidden"><X className="w-5 h-5" /></button>
+            <button onClick={() => setShowChat(false)} className="md:hidden p-2 hover:bg-white/5 rounded-lg transition-colors"><X className="w-5 h-5" /></button>
           </div>
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 no-scrollbar">
             {chatMessages.map((m, i) => (
               <div key={i} className="flex flex-col gap-1.5 animate-in slide-in-from-right-2">
                 <div className="flex items-center justify-between">
@@ -219,10 +219,10 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
               </div>
             ))}
           </div>
-          <form onSubmit={handleSendMessage} className="p-6 pt-0">
+          <form onSubmit={handleSendMessage} className="p-4 md:p-6 pt-0">
             <div className="relative">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Chat with peers..."
@@ -249,28 +249,28 @@ const VirtualRoom: React.FC<VirtualRoomProps> = ({ room, user, onLeave }) => {
         </div>
 
         <div className="flex items-center gap-3 md:gap-4 flex-1 justify-center">
-          <button 
+          <button
             onClick={() => setIsMuted(!isMuted)}
             className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all active:scale-95 ${isMuted ? 'bg-red-500 text-white shadow-lg shadow-red-500/30' : 'bg-slate-800 text-white border border-white/10 hover:bg-slate-700'}`}
           >
             {isMuted ? <MicOff className="w-5 h-5 md:w-6 md:h-6" /> : <Mic className="w-5 h-5 md:w-6 md:h-6" />}
           </button>
-          <button 
+          <button
             onClick={() => setIsVideoOn(!isVideoOn)}
             className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all active:scale-95 ${!isVideoOn ? 'bg-red-500 text-white shadow-lg shadow-red-500/30' : 'bg-slate-800 text-white border border-white/10 hover:bg-slate-700'}`}
           >
             {!isVideoOn ? <VideoOff className="w-5 h-5 md:w-6 md:h-6" /> : <Video className="w-5 h-5 md:w-6 md:h-6" />}
           </button>
-          
+
           <div className="w-px h-8 bg-white/10 mx-2 hidden md:block"></div>
-          
-          <button 
+
+          <button
             onClick={() => setIsHandRaised(!isHandRaised)}
             className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all active:scale-95 ${isHandRaised ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30' : 'bg-slate-800 text-white border border-white/10 hover:bg-slate-700'}`}
           >
             <Hand className={`w-5 h-5 md:w-6 md:h-6 ${isHandRaised ? 'fill-white' : ''}`} />
           </button>
-          <button 
+          <button
             onClick={() => setShowChat(!showChat)}
             className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all active:scale-95 ${showChat ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'bg-slate-800 text-white border border-white/10'}`}
           >
