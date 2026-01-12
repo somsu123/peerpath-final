@@ -12,7 +12,7 @@ This project focuses on **real usability, clean architecture, and production-rea
 
 🟢 **LIVE & OPERATIONAL (Local Development)**
 📦 **Repository:** [https://github.com/somsu123/peerpath-final](https://github.com/somsu123/peerpath-final)
-🌐 **Platform:** Web (Desktop + Mobile Responsive)
+🌐 **Platform:** Web (Desktop + Mobile Responsive) :- https://peerpath.onrender.com/
 
 ---
 
