@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({
   return (
     <nav className="fixed top-0 left-0 right-0 z-[60] glass-effect border-b border-slate-100 h-16 md:h-20 flex items-center px-4 md:px-10 transition-all">
       <div className="flex items-center gap-3 mr-auto" onClick={() => setActiveTab('home')}>
-        <img src="/logo.png" alt="PeerPath" className="h-10 md:h-12 w-auto object-contain cursor-pointer" />
+        <img src="/logo.png" alt="PeerPath" className="h-14 md:h-16 lg:h-20 w-auto object-contain cursor-pointer transition-all duration-300 hover:scale-105" />
       </div>
 
       {/* Desktop Navigation Links */}

@@ -14,7 +14,8 @@ import ProfileSettings from './components/ProfileSettings';
 import CampusHub from './components/CampusHub';
 import SyllabusTracker from './components/SyllabusTracker';
 import AOTCalendar from './components/AOTCalendar';
-import { BookOpen, Users, Layout, Zap, CheckCircle, MessageSquare, Library, ArrowRight, Trophy, GraduationCap, Calendar } from 'lucide-react';
+import LandingPage from './components/LandingPage';
+import { BookOpen, Users, Layout, MessageSquare, Library, GraduationCap, Calendar } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>('home');
@@ -178,116 +179,11 @@ const App: React.FC = () => {
     switch (activeTab) {
       case 'home':
         return (
-          <div className="space-y-12 md:space-y-32">
-            <Hero
-              onStart={() => currentUser ? setActiveTab('peers') : setIsAuthModalOpen(true)}
-              onExploreHub={() => setActiveTab('campus-hub')}
-            />
-
-            <section className="max-w-7xl mx-auto px-5 md:px-10">
-              <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                <div>
-                  <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em] mb-3 block">Campus Clusters</span>
-                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Department Hubs</h2>
-                </div>
-                <button onClick={() => setActiveTab('groups')} className="flex items-center gap-2 text-indigo-600 font-black uppercase text-xs tracking-widest hover:gap-4 transition-all">
-                  Browse All Rooms <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
-                {[
-                  { name: 'CSE', img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80', active: 42 },
-                  { name: 'CSBS', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80', active: 22 },
-                  { name: 'ECE', img: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=400&q=80', active: 19 },
-                  { name: 'EEE', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80', active: 16 },
-                  { name: 'ME', img: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&w=400&q=80', active: 12 },
-                  { name: 'EE', img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=400&q=80', active: 15 },
-                ].map((dept, i) => (
-                  <div key={i} className="group relative h-72 md:h-96 rounded-[2.5rem] overflow-hidden cursor-pointer shadow-xl shadow-slate-200/50">
-                    <img src={dept.img} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={dept.name} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <h3 className="text-3xl font-black text-white tracking-tighter mb-1">{dept.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                        <span className="text-[10px] font-bold text-white/70 uppercase tracking-widest">{dept.active} Active Rooms</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="max-w-6xl mx-auto px-5 md:px-10">
-              <div className="text-center mb-16 md:mb-24">
-                <span className="text-[10px] md:text-xs font-black text-indigo-600 uppercase tracking-[0.3em] mb-4 block">Engineered for AOT</span>
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-5 tracking-tight">Elevate your learning.</h2>
-                <p className="text-slate-500 max-w-2xl mx-auto font-medium md:text-lg leading-relaxed">
-                  Bridge the gap between departmental silos with a unified learning architecture.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[
-                  {
-                    icon: <Users className="w-8 h-8 text-indigo-600" />,
-                    title: 'Peer Finder',
-                    desc: 'Directly connect with high-achievers from all departments.',
-                    img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80'
-                  },
-                  {
-                    icon: <Zap className="w-8 h-8 text-amber-500" />,
-                    title: 'AI Assistant',
-                    desc: 'Gemini-powered tutor tailored to MAKAUT curriculum patterns.',
-                    img: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=400&q=80'
-                  },
-                  {
-                    icon: <Layout className="w-8 h-8 text-emerald-500" />,
-                    title: 'Live Rooms',
-                    desc: 'Real-time collaborative sessions for lab prep and assignments.',
-                    img: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80'
-                  },
-                ].map((feature, idx) => (
-                  <div key={idx} className="bg-white rounded-[3rem] border border-slate-100 hover:border-indigo-100 hover:shadow-[0_40px_80px_-20px_rgba(79,70,229,0.15)] transition-all duration-500 group overflow-hidden flex flex-col">
-                    <div className="h-48 overflow-hidden relative">
-                      <img src={feature.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-80" alt={feature.title} />
-                      <div className="absolute inset-0 bg-indigo-600/10 mix-blend-multiply"></div>
-                      <div className="absolute top-6 left-6 w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500">
-                        {React.cloneElement(feature.icon as React.ReactElement<any>, { className: 'w-7 h-7' })}
-                      </div>
-                    </div>
-                    <div className="p-10 flex-1">
-                      <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
-                      <p className="text-slate-500 leading-relaxed font-semibold text-sm md:text-base">{feature.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {currentUser && (
-                <div className="mt-20 md:mt-32 p-8 md:p-14 rounded-[4rem] bg-indigo-600 text-white flex flex-col lg:flex-row items-center justify-between gap-10 shadow-2xl shadow-indigo-200 relative overflow-hidden group">
-                  <img
-                    src="https://images.unsplash.com/photo-1498243639359-2cd19655a1ef?auto=format&fit=crop&w=800&q=80"
-                    className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:scale-110 transition-transform duration-1000"
-                    alt="Study Banner"
-                  />
-                  <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center text-center md:text-left relative z-10">
-                    <div className="w-24 h-24 bg-white/20 backdrop-blur-xl rounded-[2.5rem] flex items-center justify-center border border-white/20 shadow-inner">
-                      <CheckCircle className="w-12 h-12" />
-                    </div>
-                    <div>
-                      <h3 className="text-3xl md:text-4xl font-black tracking-tight mb-2">Campus Verified</h3>
-                      <p className="text-indigo-100 text-base md:text-xl font-medium opacity-90">Ready for a study session, {currentUser.name.split(' ')[0]}?</p>
-                    </div>
-                  </div>
-                  <button onClick={() => setActiveTab('groups')} className="bg-white text-indigo-600 px-12 py-6 rounded-2xl font-black text-lg hover:bg-slate-50 active:scale-95 transition-all shadow-2xl shadow-indigo-900/20 w-full lg:w-auto relative z-10">
-                    Join Live Room
-                  </button>
-                </div>
-              )}
-            </section>
-          </div>
+          <LandingPage
+            onNavigate={setActiveTab}
+            onAuth={() => setIsAuthModalOpen(true)}
+            currentUser={currentUser}
+          />
         );
       case 'peers':
         return <div className="pt-24 md:pt-32 px-5 md:px-10 pb-20 md:pb-12"><PeerFinder onChatStart={handleStartPeerChat} onFollow={handleFollowPeer} /></div>;
