@@ -21,7 +21,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
   const [showToast, setShowToast] = useState(false);
   const [isNewUser, setIsNewUser] = useState(true);
 
-  const DEMO_OTP = '123456';
 
   useEffect(() => {
     if (!isOpen) {
@@ -39,24 +38,40 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
     return email.toLowerCase().endsWith('.edu.in');
   };
 
-  const checkUserExists = (email: string) => {
-    const allUsers = JSON.parse(localStorage.getItem('peerpath_registry') || '[]');
-    return allUsers.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+  const checkUserExists = async (email: string) => {
+    try {
+      const response = await fetch('/api/auth/check-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   };
 
-  const handleInitialSubmit = (e: React.FormEvent) => {
+  const handleInitialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     if (!validateEmail(email)) {
       setError('Only .edu.in emails from AOT are permitted.');
       return;
     }
-    const existingUser = checkUserExists(email);
-    if (existingUser) {
+
+    setLoading(true);
+    const userCheck = await checkUserExists(email);
+    setLoading(false);
+
+    if (userCheck && userCheck.exists) {
+      // User exists, redirect to login (Password Entry)
       setIsNewUser(false);
-      setName(existingUser.name);
       setStep('login');
+      // No OTP sent here yet, password required first
     } else {
+      // New User
       setIsNewUser(true);
       setStep('signup');
     }
@@ -78,16 +93,56 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
       setError('Password must be at least 6 characters.');
       return;
     }
-    triggerOtpSimulation();
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setStep('otp');
+        setShowToast(true); // Optional: toast might need update as we don't know OTP
+        // Ensure toast doesn't show DEMO_OTP
+      } else {
+        setError(data.message || 'Registration failed');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const existingUser = checkUserExists(email);
-    if (existingUser && existingUser.password === password) {
-      triggerOtpSimulation();
-    } else {
-      setError('Incorrect password. Please try again.');
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        if (data.next === "Verify_OTP") {
+          setStep('otp');
+          setShowToast(true);
+        } else {
+          // Fallback if backend doesn't require OTP (shouldn't happen with current backend code)
+          onSuccess(data.user);
+          onClose();
+        }
+      } else {
+        setError(data.message || 'Login failed');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,25 +162,28 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
   const handleVerifyOtp = async () => {
     setLoading(true);
     setError('');
-    setTimeout(() => {
-      setLoading(false);
-      if (otp.join('') === DEMO_OTP) {
-        if (isNewUser) {
-          const allUsers = JSON.parse(localStorage.getItem('peerpath_registry') || '[]');
-          allUsers.push({ email, name, password });
-          localStorage.setItem('peerpath_registry', JSON.stringify(allUsers));
-        }
+    try {
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp: otp.join('') }),
+      });
+      const data = await response.json();
+      if (data.success) {
         setStep('success');
         setTimeout(() => {
           onSuccess({ name, email });
           onClose();
         }, 2000);
       } else {
-        setError(`Invalid code. Try ${DEMO_OTP}.`);
+        setError(data.message || 'Invalid OTP');
         setOtp(['', '', '', '', '', '']);
-        document.getElementById('otp-0')?.focus();
       }
-    }, 1200);
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -133,19 +191,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 pb-safe">
       <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xl" onClick={onClose}></div>
-      
-      {showToast && (
-        <div className="fixed top-6 right-6 z-[110] animate-in slide-in-from-right duration-500 max-w-sm w-[calc(100%-48px)]">
-          <div className="bg-white border-l-4 border-indigo-600 shadow-2xl rounded-2xl p-5 flex items-start gap-4 ring-1 ring-slate-200">
-            <div className="bg-indigo-100 p-3 rounded-2xl shrink-0"><Bell className="w-6 h-6 text-indigo-600" /></div>
-            <div className="flex-1">
-              <p className="text-sm font-black text-slate-900">PeerPath Secure</p>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed font-semibold">Verification Code: <span className="font-black text-indigo-600 text-lg ml-1">{DEMO_OTP}</span></p>
-            </div>
-            <button onClick={() => setShowToast(false)} className="p-1"><X className="w-4 h-4 text-slate-400" /></button>
-          </div>
-        </div>
-      )}
+
+
 
       <div className="relative w-full max-w-md bg-white rounded-[3rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 border border-slate-100 flex flex-col max-h-[90dvh]">
         <button onClick={onClose} className="absolute top-6 right-6 p-3 text-slate-400 hover:text-slate-600 rounded-2xl bg-slate-50 active:scale-90 transition-all z-10">
@@ -168,7 +215,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">College Email</label>
                   <div className="relative group">
                     <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-indigo-600" />
-                    <input 
+                    <input
                       type="email" required autoFocus value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="roll@aot.edu.in"
@@ -196,7 +243,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Full Name</label>
                   <div className="relative group">
                     <UserIcon className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-indigo-600" />
-                    <input 
+                    <input
                       type="text" required value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="John Doe"
@@ -208,7 +255,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Password</label>
                   <div className="relative group">
                     <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-indigo-600" />
-                    <input 
+                    <input
                       type="password" required value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Min. 6 characters"
@@ -238,7 +285,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Password</label>
                   <div className="relative group">
                     <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-indigo-600" />
-                    <input 
+                    <input
                       type="password" required autoFocus value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
@@ -251,8 +298,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                   {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Sign In'}
                 </button>
                 <div className="flex flex-col gap-4 text-center pt-2">
-                   <button type="button" onClick={() => setStep('signup')} className="text-indigo-600 text-xs font-black uppercase tracking-widest hover:underline">Register new account instead?</button>
-                   <button type="button" onClick={() => setStep('initial')} className="text-slate-400 text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors">Use different email</button>
+                  <button type="button" onClick={() => setStep('signup')} className="text-indigo-600 text-xs font-black uppercase tracking-widest hover:underline">Register new account instead?</button>
+                  <button type="button" onClick={() => setStep('initial')} className="text-slate-400 text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors">Use different email</button>
                 </div>
               </form>
             </div>
@@ -280,13 +327,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
                 <button onClick={handleVerifyOtp} disabled={loading || otp.some(d => !d)} className="w-full bg-indigo-600 text-white py-5 rounded-[1.5rem] font-black text-xl h-16 md:h-20 active:scale-[0.96] transition-all disabled:opacity-50">
                   {loading ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : 'Confirm Identity'}
                 </button>
-                <div className="bg-amber-50 rounded-[1.75rem] p-6 border border-amber-100/50">
-                   <div className="flex items-center gap-2 text-amber-700 font-black text-[10px] uppercase tracking-widest mb-3"><HelpCircle className="w-4 h-4" />Demo Code</div>
-                   <div className="flex items-center justify-between">
-                     <span className="font-mono text-2xl font-black text-amber-600 tracking-widest">{DEMO_OTP}</span>
-                     <button onClick={() => setOtp(DEMO_OTP.split(''))} className="text-[10px] font-black uppercase text-amber-700 bg-amber-200/50 px-4 py-2.5 rounded-xl active:scale-90 transition-all">Auto-Fill</button>
-                   </div>
-                </div>
+
               </div>
             </div>
           )}
