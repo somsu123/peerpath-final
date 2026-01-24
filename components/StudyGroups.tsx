@@ -15,8 +15,8 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showScheduler, setShowScheduler] = useState(false);
-  const [newRoomData, setNewRoomData] = useState({ 
-    title: '', 
+  const [newRoomData, setNewRoomData] = useState({
+    title: '',
     subject: 'CSE',
     customTime: ''
   });
@@ -34,13 +34,13 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
   const filters = ['All', 'CSE', 'CSBS', 'ECE', 'EEE', 'ME', 'EE', 'Live Only'];
 
   const filteredGroups = groups.filter(group => {
-    const matchesSearch = group.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          group.subject.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = group.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      group.subject.toLowerCase().includes(searchTerm.toLowerCase());
     const isActuallyLive = group.isLive || roomsGoneLive.includes(group.id);
-    const matchesFilter = activeFilter === 'All' 
-      ? true 
-      : activeFilter === 'Live Only' 
-        ? isActuallyLive 
+    const matchesFilter = activeFilter === 'All'
+      ? true
+      : activeFilter === 'Live Only'
+        ? isActuallyLive
         : group.subject === activeFilter;
     return matchesSearch && matchesFilter;
   });
@@ -63,7 +63,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
     setGroups([newRoom, ...groups]);
     setIsCreateModalOpen(false);
     resetForm();
-    
+
     if (isLiveNow && onJoin) {
       onJoin(newRoom);
     } else if (!isLiveNow && onNotify) {
@@ -101,7 +101,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
           <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Study Rooms</h2>
           <p className="text-slate-500 font-semibold max-w-lg">Join high-intensity focus sessions or schedule collaborative assignment reviews.</p>
         </div>
-        <button 
+        <button
           onClick={() => setIsCreateModalOpen(true)}
           className="flex items-center justify-center gap-3 bg-indigo-600 text-white px-8 py-5 rounded-[2rem] font-black hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-100 active:scale-[0.96] w-full md:w-auto h-16 md:h-18 group"
         >
@@ -115,8 +115,8 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="relative flex-1 group">
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-indigo-600 transition-colors" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search by topic, department or room name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -129,8 +129,8 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
               key={f}
               onClick={() => setActiveFilter(f)}
               className={`px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border-2
-                ${activeFilter === f 
-                  ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-100' 
+                ${activeFilter === f
+                  ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-100'
                   : 'bg-white border-slate-100 text-slate-400 hover:border-slate-200 hover:text-slate-600'}`}
             >
               {f}
@@ -159,13 +159,13 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                       ) : (
                         <>
                           <Calendar className="w-3.5 h-3.5" />
-                          {group.scheduledTime 
+                          {group.scheduledTime
                             ? `Starts at ${group.scheduledTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
                             : 'Upcoming'}
                         </>
                       )}
                     </span>
-                    
+
                     <div className="flex items-center gap-2">
                       <button className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-all active:scale-90" title="Share Room">
                         <Share2 className="w-4 h-4" />
@@ -175,7 +175,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
@@ -202,15 +202,15 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">In this Room</span>
                     </div>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => handleGroupAction(group)}
                     className={`w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 rounded-[1.5rem] font-black transition-all active:scale-[0.96] text-base h-16 md:h-18 min-w-[180px]
-                    ${isActuallyLive 
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-2xl shadow-indigo-100' 
-                      : isNotified 
-                        ? 'bg-emerald-50 border-2 border-emerald-100 text-emerald-600'
-                        : 'bg-white border-2 border-slate-100 text-slate-500 hover:bg-slate-50'}`}
+                    ${isActuallyLive
+                        ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-2xl shadow-indigo-100'
+                        : isNotified
+                          ? 'bg-emerald-50 border-2 border-emerald-100 text-emerald-600'
+                          : 'bg-white border-2 border-slate-100 text-slate-500 hover:bg-slate-50'}`}
                   >
                     {isActuallyLive ? (
                       <><PlayCircle className="w-6 h-6" /> Enter Room</>
@@ -242,7 +242,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
             <button onClick={handleCloseModal} className="absolute top-8 right-8 p-3 bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-900 transition-all">
               <X className="w-6 h-6" />
             </button>
-            
+
             <div className="space-y-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-indigo-600 text-white rounded-[1.5rem] flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-100">
@@ -255,19 +255,19 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
               <div className="space-y-5">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Room Title</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={newRoomData.title}
-                    onChange={(e) => setNewRoomData({...newRoomData, title: e.target.value})}
-                    placeholder="e.g. CSBS Marketing Unit 2" 
-                    className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold" 
+                    onChange={(e) => setNewRoomData({ ...newRoomData, title: e.target.value })}
+                    placeholder="e.g. CSBS Marketing Unit 2"
+                    className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Department</label>
-                  <select 
+                  <select
                     value={newRoomData.subject}
-                    onChange={(e) => setNewRoomData({...newRoomData, subject: e.target.value})}
+                    onChange={(e) => setNewRoomData({ ...newRoomData, subject: e.target.value })}
                     className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold"
                   >
                     <option value="CSE">CSE</option>
@@ -280,7 +280,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                 </div>
 
                 {!showScheduler ? (
-                  <button 
+                  <button
                     onClick={() => setShowScheduler(true)}
                     className="w-full flex items-center justify-center gap-3 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-black text-xs uppercase tracking-widest hover:border-indigo-300 hover:text-indigo-600 transition-all"
                   >
@@ -293,18 +293,18 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                       <label className="text-[10px] font-black text-indigo-600 uppercase tracking-widest ml-2">Scheduled Time</label>
                       <button onClick={() => setShowScheduler(false)} className="text-[10px] font-black text-slate-400 hover:text-red-500 uppercase tracking-widest">Cancel Schedule</button>
                     </div>
-                    <input 
-                      type="datetime-local" 
+                    <input
+                      type="datetime-local"
                       value={newRoomData.customTime}
-                      onChange={(e) => setNewRoomData({...newRoomData, customTime: e.target.value})}
-                      className="w-full bg-white border-2 border-white rounded-xl px-5 py-3.5 focus:border-indigo-600 outline-none transition-all font-bold text-slate-700 shadow-sm" 
+                      onChange={(e) => setNewRoomData({ ...newRoomData, customTime: e.target.value })}
+                      className="w-full bg-white border-2 border-white rounded-xl px-5 py-3.5 focus:border-indigo-600 outline-none transition-all font-bold text-slate-700 shadow-sm"
                     />
                   </div>
                 )}
               </div>
 
               <div className="flex flex-col gap-3">
-                <button 
+                <button
                   onClick={() => handleCreateRoom(showScheduler ? false : true)}
                   disabled={!newRoomData.title.trim() || (showScheduler && !newRoomData.customTime)}
                   className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-indigo-100 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
@@ -312,7 +312,7 @@ const StudyGroups: React.FC<StudyGroupsProps> = ({ onJoin, onNotify, notifiedRoo
                   {showScheduler ? <Clock className="w-6 h-6" /> : <PlayCircle className="w-6 h-6" />}
                   {showScheduler ? 'Schedule Room' : 'Start Now Live'}
                 </button>
-                <button 
+                <button
                   onClick={handleCloseModal}
                   className="w-full bg-slate-50 text-slate-500 py-5 rounded-2xl font-black text-lg hover:bg-slate-100 active:scale-95 transition-all border border-slate-100"
                 >
