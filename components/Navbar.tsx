@@ -41,14 +41,8 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-[60] glass-effect border-b border-slate-100 h-16 md:h-20 flex items-center px-4 md:px-10 transition-all">
-      <div className="flex items-center gap-3 mr-auto">
-        <div className="bg-indigo-600 p-2.5 rounded-xl shadow-lg shadow-indigo-100 rotate-3 cursor-pointer" onClick={() => setActiveTab('home')}>
-          <BookOpen className="text-white w-5 h-5 md:w-6 md:h-6" />
-        </div>
-        <div className="flex flex-col cursor-pointer" onClick={() => setActiveTab('home')}>
-          <span className="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tighter leading-none">PeerPath</span>
-          <span className="text-[9px] md:text-[10px] text-indigo-600 font-black tracking-widest uppercase">AOT Campus</span>
-        </div>
+      <div className="flex items-center gap-3 mr-auto" onClick={() => setActiveTab('home')}>
+        <img src="/logo.png" alt="PeerPath" className="h-10 md:h-12 w-auto object-contain cursor-pointer" />
       </div>
 
       {/* Desktop Navigation Links */}
