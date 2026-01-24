@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-[#F8FAFC];
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-lg;
+  }
+  
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-xl border border-white/50 shadow-xl hover:shadow-2xl hover:bg-white/80 transition-all duration-500;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 40px rgba(79, 70, 229, 0.3);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+  }
+}
+
+/* Animations */
+@keyframes blob-bounce {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes gradient-xy {
+  0%, 100% {
+    background-size: 400% 400%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes tilt {
+  0%, 50%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}
+
+@keyframes shine {
+  0% { left: -100%; opacity: 0; }
+  20% { opacity: 0.5; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.animate-blob {
+  animation: blob-bounce 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-gradient-xy {
+  animation: gradient-xy 6s ease infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out 3s infinite;
+}
+
+.animate-tilt {
+  animation: tilt 10s infinite linear;
+}
+
+.group:hover .animate-shine {
+  animation: shine 1.5s;
+}
+
+.bg-grid-pattern {
+  background-image: radial-gradient(#6366f1 1px, transparent 1px);
+  background-size: 40px 40px;
+}
