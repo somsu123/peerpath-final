@@ -11,21 +11,21 @@ interface PeerFinderProps {
 const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [followedIds, setFollowedIds] = useState<string[]>([]);
-  
+
   useEffect(() => {
     const saved = localStorage.getItem('followed_peers');
     if (saved) setFollowedIds(JSON.parse(saved));
   }, []);
 
   const toggleFollow = (peer: Peer) => {
-    const newFollowed = followedIds.includes(peer.id) 
+    const newFollowed = followedIds.includes(peer.id)
       ? followedIds.filter(fid => fid !== peer.id)
       : [...followedIds, peer.id];
-    
+
     if (!followedIds.includes(peer.id) && onFollow) {
       onFollow(peer);
     }
-    
+
     setFollowedIds(newFollowed);
     localStorage.setItem('followed_peers', JSON.stringify(newFollowed));
   };
@@ -39,7 +39,7 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
     { id: '6', name: 'Sneha Bose', subject: 'Computer Science & Engineering', avatar: 'https://picsum.photos/seed/sneha/100/100', rating: 5.0, tags: ['1st Year', 'AOT Tech'] },
   ];
 
-  const filteredPeers = mockPeers.filter(peer => 
+  const filteredPeers = mockPeers.filter(peer =>
     peer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     peer.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
     peer.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -55,8 +55,8 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
         <div className="flex w-full md:w-auto gap-2 md:gap-4">
           <div className="relative flex-1 md:w-80">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Search CSE, CSBS, 3rd year..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -86,14 +86,14 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
                   {peer.rating}
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <h3 className="text-xl font-black text-slate-900 mb-1 leading-none">{peer.name}</h3>
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 inline-block px-2 py-1 rounded-md mt-2">
                   {peer.subject}
                 </p>
               </div>
-              
+
               <div className="flex flex-wrap gap-1.5 mb-8">
                 {peer.tags.map((tag) => (
                   <span key={tag} className="text-[9px] bg-slate-50 text-slate-400 border border-slate-100 px-2 py-1 rounded-lg font-black uppercase tracking-widest">
@@ -103,18 +103,18 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
               </div>
 
               <div className="flex flex-col gap-2">
-                <button 
+                <button
                   onClick={() => onChatStart(peer)}
                   className="w-full flex items-center justify-center gap-3 bg-indigo-600 text-white py-4.5 rounded-2xl font-black text-base hover:bg-indigo-700 active:scale-[0.96] transition-all shadow-xl shadow-indigo-100 h-14"
                 >
                   <MessageSquare className="w-5 h-5" />
                   Send Message
                 </button>
-                <button 
+                <button
                   onClick={() => toggleFollow(peer)}
                   className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-sm transition-all active:scale-[0.96] border-2 h-14
-                    ${isFollowing 
-                      ? 'bg-slate-100 border-slate-100 text-slate-600' 
+                    ${isFollowing
+                      ? 'bg-slate-100 border-slate-100 text-slate-600'
                       : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50'}`}
                 >
                   {isFollowing ? (
