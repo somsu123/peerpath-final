@@ -17,7 +17,6 @@ export interface Peer {
   name: string;
   subject: string;
   avatar: string;
-  rating: number;
   tags: string[];
 }
 

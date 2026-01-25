@@ -31,12 +31,12 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
   };
 
   const mockPeers: Peer[] = [
-    { id: '1', name: 'Arjun Das', subject: 'Computer Science & Engineering', avatar: 'https://picsum.photos/seed/arjun/100/100', rating: 4.8, tags: ['3rd Year', 'Coding Club'] },
-    { id: '2', name: 'Priya Mukherjee', subject: 'CS & Business Systems', avatar: 'https://picsum.photos/seed/priya/100/100', rating: 4.9, tags: ['3rd Year', 'Business Lead'] },
-    { id: '3', name: 'Sayan Ghosh', subject: 'Electronics & Communication', avatar: 'https://picsum.photos/seed/sayan/100/100', rating: 4.7, tags: ['2nd Year', 'Robotics'] },
-    { id: '4', name: 'Ananya Roy', subject: 'Electrical & Electronics', avatar: 'https://picsum.photos/seed/ananya/100/100', rating: 4.9, tags: ['3rd Year', 'Smart Grids'] },
-    { id: '5', name: 'Rahul Sharma', subject: 'Mechanical Engineering', avatar: 'https://picsum.photos/seed/rahul/100/100', rating: 4.5, tags: ['Final Year', 'Auto Enthusiast'] },
-    { id: '6', name: 'Sneha Bose', subject: 'Computer Science & Engineering', avatar: 'https://picsum.photos/seed/sneha/100/100', rating: 5.0, tags: ['1st Year', 'AOT Tech'] },
+    { id: '1', name: 'Arjun Das', subject: 'Computer Science & Engineering', avatar: 'https://picsum.photos/seed/arjun/100/100', tags: ['3rd Year', 'Coding Club'] },
+    { id: '2', name: 'Priya Mukherjee', subject: 'CS & Business Systems', avatar: 'https://picsum.photos/seed/priya/100/100', tags: ['3rd Year', 'Business Lead'] },
+    { id: '3', name: 'Sayan Ghosh', subject: 'Electronics & Communication', avatar: 'https://picsum.photos/seed/sayan/100/100', tags: ['2nd Year', 'Robotics'] },
+    { id: '4', name: 'Ananya Roy', subject: 'Electrical & Electronics', avatar: 'https://picsum.photos/seed/ananya/100/100', tags: ['3rd Year', 'Smart Grids'] },
+    { id: '5', name: 'Rahul Sharma', subject: 'Mechanical Engineering', avatar: 'https://picsum.photos/seed/rahul/100/100', tags: ['Final Year', 'Auto Enthusiast'] },
+    { id: '6', name: 'Sneha Bose', subject: 'Computer Science & Engineering', avatar: 'https://picsum.photos/seed/sneha/100/100', tags: ['1st Year', 'AOT Tech'] },
   ];
 
   const filteredPeers = mockPeers.filter(peer =>
@@ -80,10 +80,6 @@ const PeerFinder: React.FC<PeerFinderProps> = ({ onChatStart, onFollow }) => {
                     <img src={peer.avatar} alt={peer.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-4 border-white shadow-sm"></div>
-                </div>
-                <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-700 px-3.5 py-2 rounded-full text-xs font-black tracking-tighter shadow-sm border border-indigo-100/50">
-                  <Star className="w-3.5 h-3.5 fill-indigo-700" />
-                  {peer.rating}
                 </div>
               </div>
 
