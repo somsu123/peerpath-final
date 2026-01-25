@@ -156,7 +156,7 @@ export const login = async (req, res) => {
         const mailOption = {
             to: email,
             subject: "Login Verification Otp 🔐",
-            text: `Hello ${name},
+            text: `Hello,
 Thank you for signing up on PeerPath 🚀
 To complete your verification, please use the One-Time Password (OTP) below:
 🔐 Your OTP: ${otp}
