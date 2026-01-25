@@ -156,10 +156,16 @@ export const login = async (req, res) => {
         const mailOption = {
             to: email,
             subject: "Login Verification Otp 🔐",
-            text: `Hey User, Your Login Verification OTP is ${otp}. This OTP is valid for 10 minutes.
-Please do not share it with anyone.
-
-— Team Intryo`
+            text: `Hello ${name},
+Thank you for signing up on PeerPath 🚀
+To complete your verification, please use the One-Time Password (OTP) below:
+🔐 Your OTP: ${otp}
+This OTP is valid for the next 10 minutes.
+Please do not share this code with anyone for security reasons.
+If you did not request this verification, you can safely ignore this email.
+Welcome to PeerPath — a platform built to empower students through collaboration and shared guidance.
+Warm regards,
+Team PeerPath`
         }
         sendEmail(mailOption).catch(err => {
             console.log("otp mailed failed", err.message);
