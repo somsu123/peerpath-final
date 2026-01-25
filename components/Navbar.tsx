@@ -81,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({
             {showNotifications && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowNotifications(false)}></div>
-                <div className="absolute top-[calc(100%+12px)] right-0 w-[320px] md:w-[380px] bg-white border border-slate-100 rounded-3xl shadow-2xl py-4 flex flex-col z-20 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
+                <div className="fixed left-4 right-4 top-[72px] md:absolute md:top-[calc(100%+12px)] md:left-auto md:right-0 md:w-[380px] bg-white border border-slate-100 rounded-3xl shadow-2xl py-4 flex flex-col z-20 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
                   <div className="px-6 py-2 flex items-center justify-between border-b border-slate-50 pb-4">
                     <h5 className="text-sm font-black text-slate-900 uppercase tracking-widest">Notifications</h5>
                     {notifications.length > 0 && (

@@ -328,46 +328,46 @@ const CampusHub: React.FC = () => {
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
             onClick={() => setSelectedEvent(null)}
           ></div>
-          <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row animate-in zoom-in duration-300">
+          <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row animate-in zoom-in duration-300">
             <button
               onClick={() => setSelectedEvent(null)}
-              className="absolute top-6 right-6 z-10 p-3 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/40 transition-colors md:text-slate-900 md:bg-slate-100 md:hover:bg-slate-200"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-10 p-2 md:p-3 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/40 transition-colors md:text-slate-900 md:bg-slate-100 md:hover:bg-slate-200"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="w-full md:w-1/3 h-64 md:h-auto relative">
+            <div className="w-full md:w-1/3 h-56 md:h-auto relative shrink-0">
               <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent md:bg-gradient-to-r"></div>
               <div className="absolute bottom-6 left-6 right-6 text-white md:hidden">
-                <h3 className="text-3xl font-black leading-none mb-2">{selectedEvent.title}</h3>
+                <h3 className="text-2xl font-black leading-none mb-2">{selectedEvent.title}</h3>
                 <span className="bg-indigo-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
                   {selectedEvent.category}
                 </span>
               </div>
             </div>
 
-            <div className="flex-1 p-8 md:p-12 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 p-6 md:p-12 overflow-y-auto custom-scrollbar pb-24 md:pb-12">
               <div className="hidden md:block space-y-4 mb-8">
                 <span className="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
                   {selectedEvent.category}
                 </span>
-                <h3 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                <h3 className="text-3xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
                   {selectedEvent.title}
                 </h3>
               </div>
 
-              <div className="space-y-10">
+              <div className="space-y-8 md:space-y-10">
                 <section>
-                  <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-4">About the Event</h4>
-                  <p className="text-slate-600 font-semibold text-lg leading-relaxed">
+                  <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-3 md:mb-4">About the Event</h4>
+                  <p className="text-slate-600 font-semibold text-base md:text-lg leading-relaxed">
                     {selectedEvent.fullDescription}
                   </p>
                 </section>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <section>
-                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-4">Prizes & Perks</h4>
+                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-3 md:mb-4">Prizes & Perks</h4>
                     <div className="space-y-3">
                       {selectedEvent.prizes && selectedEvent.prizes.length > 0 ? (
                         selectedEvent.prizes.map((prize, i) => (
@@ -386,7 +386,7 @@ const CampusHub: React.FC = () => {
                   </section>
 
                   <section>
-                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-4">Key Rules</h4>
+                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-3 md:mb-4">Key Rules</h4>
                     <ul className="space-y-3">
                       {selectedEvent.rules && selectedEvent.rules.length > 0 ? (
                         selectedEvent.rules.map((rule, i) => (
@@ -406,17 +406,17 @@ const CampusHub: React.FC = () => {
 
                 {selectedEvent.timeline && (
                   <section>
-                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-6">Event Timeline</h4>
-                    <div className="space-y-6">
+                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] mb-4 md:mb-6">Event Timeline</h4>
+                    <div className="space-y-4 md:space-y-6">
                       {selectedEvent.timeline.map((item, i) => (
-                        <div key={i} className="flex gap-6 relative">
+                        <div key={i} className="flex gap-4 md:gap-6 relative">
                           {i !== selectedEvent.timeline!.length - 1 && (
-                            <div className="absolute left-[11px] top-8 bottom-[-24px] w-0.5 bg-slate-100"></div>
+                            <div className="absolute left-[11px] top-8 bottom-[-16px] md:bottom-[-24px] w-0.5 bg-slate-100"></div>
                           )}
                           <div className="w-6 h-6 rounded-full bg-indigo-600 ring-4 ring-indigo-50 shrink-0 z-10"></div>
                           <div className="pb-2">
                             <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-1">{item.time}</p>
-                            <p className="font-black text-slate-800">{item.activity}</p>
+                            <p className="font-black text-slate-800 text-sm md:text-base">{item.activity}</p>
                           </div>
                         </div>
                       ))}
@@ -424,17 +424,17 @@ const CampusHub: React.FC = () => {
                   </section>
                 )}
 
-                <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="pt-6 md:pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center">
-                      <Users className="w-6 h-6 text-slate-400" />
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-100 rounded-2xl flex items-center justify-center">
+                      <Users className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
                     </div>
                     <div>
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Inquiries</p>
-                      <p className="text-sm font-black text-slate-900">{selectedEvent.contact || 'No contact provided'}</p>
+                      <p className="text-xs md:text-sm font-black text-slate-900">{selectedEvent.contact || 'No contact provided'}</p>
                     </div>
                   </div>
-                  <button className="w-full sm:w-auto bg-indigo-600 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-[0.15em] text-xs hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-100 active:scale-95">
+                  <button className="w-full sm:w-auto bg-indigo-600 text-white px-8 md:px-10 py-4 md:py-5 rounded-2xl font-black uppercase tracking-[0.15em] text-xs hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-100 active:scale-95">
                     Register Now
                   </button>
                 </div>
