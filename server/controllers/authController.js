@@ -22,7 +22,7 @@ export const register = async (req, res) => {
         const mailoption = {
             to: email,
             subject: "Verify your Peerpath account 🔐",
-            text: `Hello ${name},
+            text: `Hello,
 Thank you for signing up on PeerPath 🚀
 To complete your verification, please use the One-Time Password (OTP) below:
 🔐 Your OTP: ${otp}
