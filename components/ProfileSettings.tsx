@@ -35,70 +35,78 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose, user
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4">
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl" onClick={onClose}></div>
-      <div className="relative w-full max-w-4xl bg-white rounded-[3rem] shadow-2xl flex flex-col md:flex-row h-[90vh] md:h-[700px] overflow-hidden animate-in fade-in zoom-in duration-300 border border-slate-100">
+      <div className="relative w-full max-w-4xl bg-white md:rounded-[3rem] shadow-2xl flex flex-col md:flex-row h-full md:h-[700px] overflow-hidden animate-in fade-in zoom-in duration-300 border border-slate-100">
 
         {/* Sidebar */}
-        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-8 flex flex-col">
-          <div className="flex items-center gap-3 mb-10">
+        <div className="w-full md:w-64 bg-slate-50 border-b md:border-r border-slate-100 p-4 md:p-8 flex flex-row md:flex-col items-center md:items-stretch justify-between md:justify-start shrink-0">
+          <div className="hidden md:flex items-center gap-3 mb-10">
             <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
               <UserIcon className="w-6 h-6" />
             </div>
             <h2 className="text-xl font-black text-slate-900">Settings</h2>
           </div>
 
-          <nav className="flex-1 space-y-2">
+          <nav className="flex-1 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible no-scrollbar w-full md:w-auto">
             {sections.map((s) => (
               <button
                 key={s.id}
                 onClick={() => setActiveSection(s.id as any)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-black transition-all
+                className={`whitespace-nowrap flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl text-xs md:text-sm font-black transition-all
                   ${activeSection === s.id
                     ? 'bg-white text-indigo-600 shadow-sm border border-slate-200'
                     : 'text-slate-400 hover:text-slate-600 hover:bg-slate-200/50'}`}
               >
                 {s.icon}
-                {s.label}
+                <span className="md:inline">{s.label}</span>
               </button>
             ))}
           </nav>
 
           <button
             onClick={onLogout}
-            className="mt-auto flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-black text-red-500 hover:bg-red-50 transition-all"
+            className="md:mt-auto hidden md:flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-black text-red-500 hover:bg-red-50 transition-all"
           >
             <LogOut className="w-4 h-4" />
             Sign Out
+          </button>
+
+          {/* Mobile Logout (Icon only) */}
+          <button
+            onClick={onLogout}
+            className="md:hidden p-2 text-red-500 hover:bg-red-50 rounded-xl"
+          >
+            <LogOut className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Area */}
         <div className="flex-1 flex flex-col bg-white overflow-hidden">
-          <header className="p-8 border-b border-slate-50 flex items-center justify-between">
+          <header className="p-4 md:p-8 border-b border-slate-50 flex items-center justify-between shrink-0">
             <div>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight capitalize">{activeSection}</h3>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Manage your account preferences</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight capitalize">{activeSection}</h3>
+              <p className="hidden md:block text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Manage your account preferences</p>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition-all">
               <X className="w-6 h-6 text-slate-400" />
             </button>
           </header>
 
-          <div className="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 no-scrollbar pb-20 md:pb-8">
             {activeSection === 'profile' && (
-              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="relative group">
-                    <div className="w-32 h-32 rounded-[2.5rem] bg-indigo-50 overflow-hidden ring-4 ring-slate-50 shadow-inner">
+              <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                  <div className="relative group shrink-0">
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] md:rounded-[2.5rem] bg-indigo-50 overflow-hidden ring-4 ring-slate-50 shadow-inner">
                       <img
                         src={formData.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`}
                         className="w-full h-full object-cover"
                         alt="Avatar"
                       />
                     </div>
-                    <button className="absolute -bottom-2 -right-2 p-3 bg-white border border-slate-200 text-indigo-600 rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all">
-                      <Camera className="w-5 h-5" />
+                    <button className="absolute -bottom-2 -right-2 p-2 md:p-3 bg-white border border-slate-200 text-indigo-600 rounded-xl md:rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all">
+                      <Camera className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
                   </div>
                   <div className="flex-1 space-y-4 w-full">
@@ -139,7 +147,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose, user
             )}
 
             {activeSection === 'academic' && (
-              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">College / Institution</label>
@@ -203,28 +211,28 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose, user
             )}
 
             {activeSection === 'security' && (
-              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                <div className="p-6 bg-slate-50 border border-slate-100 rounded-[2rem] flex items-center justify-between">
+              <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="p-4 md:p-6 bg-slate-50 border border-slate-100 rounded-[2rem] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-slate-200 shadow-sm">
+                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-slate-200 shadow-sm shrink-0">
                       <Mail className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
                       <p className="text-sm font-black text-slate-900">Registered Email</p>
-                      <p className="text-xs text-slate-400 font-bold">{formData.email}</p>
+                      <p className="text-xs text-slate-400 font-bold break-all">{formData.email}</p>
                     </div>
                   </div>
-                  <button className="text-[10px] font-black uppercase text-indigo-600 bg-white border border-slate-200 px-4 py-2 rounded-xl">Change</button>
+                  <button className="w-full md:w-auto text-[10px] font-black uppercase text-indigo-600 bg-white border border-slate-200 px-4 py-2 rounded-xl">Change</button>
                 </div>
 
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Danger Zone</h4>
-                  <div className="p-6 bg-red-50 border border-red-100 rounded-[2rem] flex items-center justify-between">
+                  <div className="p-4 md:p-6 bg-red-50 border border-red-100 rounded-[2rem] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
                       <p className="text-sm font-black text-red-600">Delete Account</p>
                       <p className="text-xs text-red-400 font-bold">This action is irreversible. All your data will be wiped.</p>
                     </div>
-                    <button className="p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all">
+                    <button className="w-full md:w-auto p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all flex justify-center">
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
@@ -240,11 +248,11 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose, user
                   { title: 'Resource Updates', desc: 'Notify me when new PYQs are uploaded' },
                 ].map((p, i) => (
                   <div key={i} className="flex items-center justify-between p-2">
-                    <div>
+                    <div className="pr-4">
                       <p className="text-sm font-black text-slate-900">{p.title}</p>
                       <p className="text-xs text-slate-400 font-bold">{p.desc}</p>
                     </div>
-                    <div className="w-12 h-6 bg-indigo-600 rounded-full relative cursor-pointer">
+                    <div className="w-12 h-6 bg-indigo-600 rounded-full relative cursor-pointer shrink-0">
                       <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                     </div>
                   </div>
@@ -253,17 +261,17 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ isOpen, onClose, user
             )}
           </div>
 
-          <footer className="p-8 border-t border-slate-50 bg-slate-50/50 flex justify-end gap-3">
+          <footer className="p-4 md:p-8 border-t border-slate-50 bg-slate-50/50 flex flex-col-reverse md:flex-row justify-end gap-3 shrink-0">
             <button
               onClick={onClose}
-              className="px-8 py-3 rounded-2xl text-sm font-black text-slate-500 hover:bg-slate-100 transition-all"
+              className="w-full md:w-auto px-8 py-3 rounded-2xl text-sm font-black text-slate-500 hover:bg-slate-100 transition-all text-center"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="px-10 py-3 bg-indigo-600 text-white rounded-2xl text-sm font-black shadow-xl shadow-indigo-100 active:scale-95 transition-all flex items-center gap-2"
+              className="w-full md:w-auto px-10 py-3 bg-indigo-600 text-white rounded-2xl text-sm font-black shadow-xl shadow-indigo-100 active:scale-95 transition-all flex items-center justify-center gap-2"
             >
               {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save Changes
