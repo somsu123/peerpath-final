@@ -14,7 +14,7 @@ export const sendEmail = async ({ to, subject, text }) => {
     return emailApi.sendTransacEmail({
         sender: {
             email: process.env.SENDER_EMAIL,
-            name: "Intryo"
+            name: "PeerPath"
         },
         to: [{ email: to }],
         subject,
