@@ -103,10 +103,7 @@ export const verifyOtp = async (req, res) => {
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        // Allow verification if already verified (for login)
-        // if (user.isVerified) {
-        //     return res.status(200).json({ success: true, message: "User already verified" });
-        // }
+
 
         if (user.verifyOtp !== otp) {
             return res.status(400).json({ success: false, message: "Invalid OTP" });
