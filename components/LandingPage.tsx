@@ -146,7 +146,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAuth, currentUs
 
                             <div className="flex flex-col md:flex-row gap-8 md:gap-10 items-center text-center md:text-left relative z-10 w-full lg:w-auto">
                                 <div className="w-28 h-28 glass-effect rounded-[2.5rem] flex items-center justify-center relative animate-float">
-                                    <CheckCircle className="w-12 h-12 text-white" />
+                                    <CheckCircle className="w-12 h-12 text-indigo-600" />
                                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full border-4 border-indigo-600 animate-pulse"></div>
                                 </div>
                                 <div>
@@ -156,7 +156,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, onAuth, currentUs
                             </div>
                             <button
                                 onClick={() => onNavigate('groups')}
-                                className="glass-card px-12 py-6 rounded-2xl font-black text-lg text-indigo-600 hover:text-indigo-700 hover:bg-white transition-all shadow-xl w-full lg:w-auto relative z-10 group/btn"
+                                className="bg-white px-12 py-6 rounded-2xl font-black text-lg text-indigo-600 hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-900/20 w-full lg:w-auto relative z-10 group/btn"
                             >
                                 <span className="flex items-center justify-center gap-2">
                                     Join Live Room
