@@ -23,17 +23,15 @@ export const register = async (req, res) => {
             to: email,
             subject: "Verify your Peerpath account 🔐",
             text: `Hello ${name},
-
-Welcome to PeerPath 👋
-
-Your One-Time Password (OTP) to verify your email is:
-
-👉 ${otp}
-
-This OTP is valid for 10 minutes.
-Please do not share it with anyone.
-
-— Team Intryo`
+Thank you for signing up on PeerPath 🚀
+To complete your verification, please use the One-Time Password (OTP) below:
+🔐 Your OTP: ${otp}
+This OTP is valid for the next 10 minutes.
+Please do not share this code with anyone for security reasons.
+If you did not request this verification, you can safely ignore this email.
+Welcome to PeerPath — a platform built to empower students through collaboration and shared guidance.
+Warm regards,
+Team PeerPath`
         }
         sendEmail(mailoption).catch(err => {
             console.error("OTP email failed:", err.message);
