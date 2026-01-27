@@ -50,7 +50,13 @@ const Navbar: React.FC<NavbarProps> = ({
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => {
+              if (!currentUser && tab.id !== 'home') {
+                onAuthClick();
+                return;
+              }
+              setActiveTab(tab.id);
+            }}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all text-sm font-bold
               ${activeTab === tab.id
                 ? 'bg-white text-indigo-600 shadow-sm border border-slate-100'
