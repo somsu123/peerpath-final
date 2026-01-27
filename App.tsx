@@ -47,6 +47,19 @@ const App: React.FC = () => {
     }
   }, []);
 
+  // Protected Routes Logic
+  useEffect(() => {
+    if (!currentUser && activeTab !== 'home') {
+      setActiveTab('home');
+      setIsAuthModalOpen(true);
+      addNotification({
+        type: 'alert',
+        title: 'Authentication Required',
+        message: 'Please log in to access this feature.'
+      });
+    }
+  }, [activeTab, currentUser]);
+
   useEffect(() => {
     localStorage.setItem('peerpath_notifications', JSON.stringify(notifications));
   }, [notifications]);
@@ -238,7 +251,13 @@ const App: React.FC = () => {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as AppTab)}
+                onClick={() => {
+                  if (!currentUser && tab.id !== 'home') {
+                    setIsAuthModalOpen(true);
+                    return;
+                  }
+                  setActiveTab(tab.id as AppTab);
+                }}
                 className={`flex flex-col items-center gap-1 transition-all px-3 py-1 flex-shrink-0
                 ${activeTab === tab.id ? 'text-indigo-600 scale-110' : 'text-slate-400'}`}
               >
